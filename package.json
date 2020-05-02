@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@amcharts/amcharts4": "^4.9.19",
+    "@amcharts/amcharts4-geodata": "^4.1.14",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "chart.js": "^2.9.3",
+    "moment": "^2.25.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
