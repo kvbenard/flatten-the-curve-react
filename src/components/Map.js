@@ -6,13 +6,7 @@ import map from "@amcharts/amcharts4-geodata/franceDepartmentsLow";
 
 class Map extends Component {
 
-    constructor(props) {
-        super(props);
-        console.log("Map Constructed");
-    }
-
     componentDidMount() {
-        console.log("Map Mounted");
         this.chart = am4core.create("french-map", am4maps.MapChart);
         this.chart.geodata = map;
         this.chart.projection = new am4maps.projections.Miller();
@@ -28,14 +22,21 @@ class Map extends Component {
         polygonTemplate.tooltipText = "{name}";
 
         // Create hover state and set alternative fill color
-        var hs = polygonTemplate.states.create("hover");
+        let hs = polygonTemplate.states.create("hover");
         hs.properties.fill = am4core.color("#011627");
 
         // Create hover state and set alternative fill color
-        var hs = polygonTemplate.states.create("active");
+        hs = polygonTemplate.states.create("active");
         hs.properties.fill = am4core.color("#011627");
 
         this.chart.series.values[0].data = this.props.data;
+
+        polygonSeries.heatRules.push({
+            property: "fill",
+            target: polygonSeries.mapPolygons.template,
+            min: am4core.color("#eeeeee"),
+            max: am4core.color("#ff0000")
+        });
 
         polygonTemplate.events.on("hit", (ev) => {
             ev.target.isActive = !ev.target.isActive;
@@ -46,7 +47,6 @@ class Map extends Component {
     }
 
     render() {
-        console.log("Map Rendered");
 
         return (
             <div style={{ height: "500px", width: "500px" }} id="french-map"></div>

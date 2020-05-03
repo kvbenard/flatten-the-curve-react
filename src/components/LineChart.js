@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
-import moment from 'moment';
 
 class LineChart extends Component {
     constructor(props) {
         super(props);
-        console.log("Line Constructed");
 
         this.chartRef = React.createRef();
     }
@@ -16,11 +14,28 @@ class LineChart extends Component {
         this.myChart.data.datasets[0].fill = false;
         this.myChart.data.datasets[0].label = this.props.name;
         this.myChart.data.datasets[0].borderColor = this.props.color;
+
+        if (this.props.annotation) {
+            if (this.myChart.data.datasets.length > 1) {
+                this.myChart.data.datasets[1].data = this.props.annotation.map(e => e.value);
+                this.myChart.data.datasets[1].fill = false;
+                this.myChart.data.datasets[1].label = "Capacité";
+                this.myChart.data.datasets[1].borderColor = "#aaaaaa";
+            } else {
+                this.myChart.data.datasets.push({
+                    fill: false,
+                    data: this.props.annotation.map(e => e.value),
+                    label: "Capacité",
+                    borderColor: "#aaaaaa",
+                });
+            }
+
+        }
+
         this.myChart.update();
     }
 
     componentDidMount() {
-        console.log("Line Mounted");
         this.myChart = new Chart(this.chartRef.current, {
             type: 'line',
             data: {
@@ -36,13 +51,10 @@ class LineChart extends Component {
     }
 
     componentDidUpdate() {
-        console.log("Line Updated");
         this.updateData();
     }
 
     render() {
-        console.log("Line Rendered");
-        console.log(this.props.data);
         return (
             <div>
                 <canvas ref={this.chartRef}></canvas>
