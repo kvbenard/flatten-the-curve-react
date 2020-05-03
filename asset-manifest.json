@@ -1,32 +1,32 @@
 {
   "files": {
     "main.css": "/flatten-the-curve-react/static/css/main.23c19fb0.chunk.css",
-    "main.js": "/flatten-the-curve-react/static/js/main.5700ddcd.chunk.js",
-    "main.js.map": "/flatten-the-curve-react/static/js/main.5700ddcd.chunk.js.map",
+    "main.js": "/flatten-the-curve-react/static/js/main.ed0220e1.chunk.js",
+    "main.js.map": "/flatten-the-curve-react/static/js/main.ed0220e1.chunk.js.map",
     "runtime-main.js": "/flatten-the-curve-react/static/js/runtime-main.c87d2380.js",
     "runtime-main.js.map": "/flatten-the-curve-react/static/js/runtime-main.c87d2380.js.map",
     "xlsx.js": "/flatten-the-curve-react/static/js/xlsx.3d699e01.chunk.js",
     "xlsx.js.map": "/flatten-the-curve-react/static/js/xlsx.3d699e01.chunk.js.map",
     "static/js/3.37f186ca.chunk.js": "/flatten-the-curve-react/static/js/3.37f186ca.chunk.js",
     "static/js/3.37f186ca.chunk.js.map": "/flatten-the-curve-react/static/js/3.37f186ca.chunk.js.map",
-    "static/js/4.ff951540.chunk.js": "/flatten-the-curve-react/static/js/4.ff951540.chunk.js",
-    "static/js/4.ff951540.chunk.js.map": "/flatten-the-curve-react/static/js/4.ff951540.chunk.js.map",
+    "static/js/4.9197078f.chunk.js": "/flatten-the-curve-react/static/js/4.9197078f.chunk.js",
+    "static/js/4.9197078f.chunk.js.map": "/flatten-the-curve-react/static/js/4.9197078f.chunk.js.map",
     "static/js/5.14d57dac.chunk.js": "/flatten-the-curve-react/static/js/5.14d57dac.chunk.js",
     "static/js/5.14d57dac.chunk.js.map": "/flatten-the-curve-react/static/js/5.14d57dac.chunk.js.map",
     "static/js/6.ee624112.chunk.js": "/flatten-the-curve-react/static/js/6.ee624112.chunk.js",
     "static/js/6.ee624112.chunk.js.map": "/flatten-the-curve-react/static/js/6.ee624112.chunk.js.map",
     "index.html": "/flatten-the-curve-react/index.html",
-    "precache-manifest.4912334b467131c88921fb0223b90e5d.js": "/flatten-the-curve-react/precache-manifest.4912334b467131c88921fb0223b90e5d.js",
+    "precache-manifest.282a8ce637a5cceff4c781bf1d965230.js": "/flatten-the-curve-react/precache-manifest.282a8ce637a5cceff4c781bf1d965230.js",
     "service-worker.js": "/flatten-the-curve-react/service-worker.js",
     "static/css/main.23c19fb0.chunk.css.map": "/flatten-the-curve-react/static/css/main.23c19fb0.chunk.css.map",
-    "static/js/4.ff951540.chunk.js.LICENSE.txt": "/flatten-the-curve-react/static/js/4.ff951540.chunk.js.LICENSE.txt",
+    "static/js/4.9197078f.chunk.js.LICENSE.txt": "/flatten-the-curve-react/static/js/4.9197078f.chunk.js.LICENSE.txt",
     "static/js/5.14d57dac.chunk.js.LICENSE.txt": "/flatten-the-curve-react/static/js/5.14d57dac.chunk.js.LICENSE.txt",
     "static/js/6.ee624112.chunk.js.LICENSE.txt": "/flatten-the-curve-react/static/js/6.ee624112.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c87d2380.js",
-    "static/js/4.ff951540.chunk.js",
+    "static/js/4.9197078f.chunk.js",
     "static/css/main.23c19fb0.chunk.css",
-    "static/js/main.5700ddcd.chunk.js"
+    "static/js/main.ed0220e1.chunk.js"
   ]
 }
