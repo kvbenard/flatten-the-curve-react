@@ -35,7 +35,8 @@ class Map extends Component {
             property: "fill",
             target: polygonSeries.mapPolygons.template,
             min: am4core.color("#eeeeee"),
-            max: am4core.color("#ff0000")
+            max: am4core.color("#ff0000"),
+            maxValue: 2
         });
 
         polygonTemplate.events.on("hit", (ev) => {
@@ -46,8 +47,18 @@ class Map extends Component {
         });
     }
 
-    render() {
+    componentDidUpdate() {
+        if (this.chart && this.chart.series.values[0].data.length > 0) {
+            this.chart.series.values[0].data.forEach((e, i) => {
+                let newObj = this.props.data.filter(d => (d.id === e.id))[0];
+                this.chart.series.values[0].data[i].value = newObj ? newObj.value : 0;
+            });
+        }
 
+        this.chart.invalidateRawData();
+    }
+
+    render() {
         return (
             <div style={{ height: "500px", width: "500px" }} id="french-map"></div>
         )

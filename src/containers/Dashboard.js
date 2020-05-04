@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import LineChart from '../components/LineChart';
-import Map from '../components/Map';
 import './Dashboard.css';
 import { department_data } from '../data/department_data';
+import MapContainer from './MapContainer';
 
 class Dashboard extends Component {
     constructor() {
@@ -11,7 +11,6 @@ class Dashboard extends Component {
         this.state = {
             dataset: [],
             datasetGroupedByDate: [],
-            datasetGroupedByDepartment: [],
             departments: []
         }
     }
@@ -61,40 +60,6 @@ class Dashboard extends Component {
         return Object.values(groupedDataset);
     }
 
-    groupDatasetByDepartment = (dataset) => {
-        let groupedDataset = {};
-
-        dataset.filter(e => e.date === '2020-04-01').forEach(elem => {
-            let department = elem.department;
-            if (Object.keys(groupedDataset).includes(department)) {
-                groupedDataset[department].reanimations = parseInt(elem.reanimations) + parseInt(groupedDataset[department].reanimations);
-                groupedDataset[department].returnHome = parseInt(elem.returnHome) + parseInt(groupedDataset[department].returnHome);
-                groupedDataset[department].deaths = parseInt(elem.deaths) + parseInt(groupedDataset[department].deaths);
-                groupedDataset[department].hospitalizations = parseInt(elem.hospitalizations) + parseInt(groupedDataset[department].hospitalizations);
-            } else {
-                groupedDataset[department] = {
-                    department: department,
-                    reanimations: elem.reanimations,
-                    returnHome: elem.returnHome,
-                    deaths: elem.deaths,
-                    hospitalizations: elem.hospitalizations,
-                    population: elem.population,
-                    reanimation_capacity: elem.reanimation_capacity,
-                }
-            }
-        });
-
-
-        for (let elem in groupedDataset) {
-            groupedDataset[elem].reanimations = groupedDataset[elem].reanimations / groupedDataset[elem].reanimation_capacity;
-            groupedDataset[elem].returnHome = groupedDataset[elem].returnHome / groupedDataset[elem].population;
-            groupedDataset[elem].deaths = groupedDataset[elem].deaths / groupedDataset[elem].population;
-            groupedDataset[elem].hospitalizations = groupedDataset[elem].hospitalizations / groupedDataset[elem].reanimation_capacity;
-        }
-
-        return Object.values(groupedDataset);
-    }
-
     componentDidMount() {
 
         fetch('https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7')
@@ -104,18 +69,9 @@ class Dashboard extends Component {
 
                 let datasetGroupedByDate = this.groupDatasetByDate(dataset);
 
-                let datasetGroupedByDepartment = this.groupDatasetByDepartment(dataset).map(e => {
-                    return {
-                        id: "FR-" + e.department,
-                        value: e.reanimations,
-                        department: e.department
-                    }
-                });
-
                 this.setState({
                     dataset: dataset,
-                    datasetGroupedByDate: datasetGroupedByDate,
-                    datasetGroupedByDepartment: datasetGroupedByDepartment
+                    datasetGroupedByDate: datasetGroupedByDate
                 });
             });
     }
@@ -139,10 +95,10 @@ class Dashboard extends Component {
 
     render() {
         return (
-            !this.state.datasetGroupedByDepartment.length ?
+            !this.state.dataset.length ?
                 <h1>Loading</h1> :
                 <div className="dashboard">
-                    <Map data={this.state.datasetGroupedByDepartment} onDepartmentClick={this.departmentClicked} />
+                    <MapContainer data={this.state.dataset} onDepartmentClick={this.departmentClicked} />
                     <div className="chartsContainer">
                         <LineChart
                             data={this.state.datasetGroupedByDate.map(d => {
