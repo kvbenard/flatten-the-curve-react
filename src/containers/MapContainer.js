@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Map from '../components/Map';
 import RangeInput from '../components/RangeInput';
+import IndicatorsContainer from './IndicatorsContainer';
 
-import moment from 'moment/moment.js'
+import moment from 'moment/moment.js';
 
 class MapContainer extends Component {
     constructor(props) {
@@ -28,12 +29,6 @@ class MapContainer extends Component {
     filterData = (date) => {
         return this.props.data.filter(line => {
             return date.isSame(line.date) && line.department < 900;
-        }).map(e => {
-            return {
-                id: "FR-" + e.department,
-                value: e.reanimations / e.reanimation_capacity,
-                department: e.department
-            }
         });
     }
 
@@ -55,6 +50,7 @@ class MapContainer extends Component {
                 <Map data={this.state.currentData} onDepartmentClick={this.props.onDepartmentClick} />
                 <RangeInput onChange={this.onChangeHandler} max={this.datesSize} />
                 <div className="currentDate">{this.state.currentDate.format('DD/MM/YYYY')}</div>
+                <IndicatorsContainer data={this.state.currentData} departments={this.props.departments} />
             </div>
         )
     }

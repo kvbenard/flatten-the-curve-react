@@ -29,7 +29,13 @@ class Map extends Component {
         hs = polygonTemplate.states.create("active");
         hs.properties.fill = am4core.color("#011627");
 
-        this.chart.series.values[0].data = this.props.data;
+        this.chart.series.values[0].data = this.props.data.map(e => {
+            return {
+                id: "FR-" + e.department,
+                value: e.reanimations / e.reanimation_capacity,
+                department: e.department
+            }
+        });
 
         polygonSeries.heatRules.push({
             property: "fill",
@@ -48,9 +54,18 @@ class Map extends Component {
     }
 
     componentDidUpdate() {
+
+        let data = this.props.data.map(e => {
+            return {
+                id: "FR-" + e.department,
+                value: e.reanimations / e.reanimation_capacity,
+                department: e.department
+            }
+        });
+
         if (this.chart && this.chart.series.values[0].data.length > 0) {
             this.chart.series.values[0].data.forEach((e, i) => {
-                let newObj = this.props.data.filter(d => (d.id === e.id))[0];
+                let newObj = data.filter(d => (d.id === e.id))[0];
                 this.chart.series.values[0].data[i].value = newObj ? newObj.value : 0;
             });
         }

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
+import 'chartjs-plugin-annotation';
 
 class LineChart extends Component {
     constructor(props) {
         super(props);
 
         this.chartRef = React.createRef();
+
+        this.isAlternative = false;
     }
 
-    updateData = () => {
-        this.myChart.data.labels = this.props.data.map(e => e.label);
-        this.myChart.data.datasets[0].data = this.props.data.map(e => e.value);
+    updateData = (data) => {
+        this.myChart.data.labels = data.map(e => e.label);
+        this.myChart.data.datasets[0].data = data.map(e => e.value);
         this.myChart.data.datasets[0].fill = false;
         this.myChart.data.datasets[0].label = this.props.name;
         this.myChart.data.datasets[0].borderColor = this.props.color;
@@ -32,6 +35,8 @@ class LineChart extends Component {
 
         }
 
+        //this.myChart.options.annotation.annotations[0].value = this.props.date;
+
         this.myChart.update();
     }
 
@@ -44,20 +49,44 @@ class LineChart extends Component {
                 }]
             },
             options: {
-                responsive: true
+                responsive: true,
+                annotation: {
+                    annotations: [
+                        {
+                            drawTime: "afterDatasetsDraw",
+                            type: "line",
+                            mode: "vertical",
+                            scaleID: "x-axis-0",
+                            value: "2020-04-20",
+                            borderColor: "black",
+                            borderWidth: 1
+                        }
+                    ]
+                }
             }
         });
-        this.updateData();
+        this.updateData(this.props.data);
     }
 
     componentDidUpdate() {
-        this.updateData();
+        this.updateData(this.props.data);
+    }
+
+    switchData = () => {
+        this.isAlternative ? this.updateData(this.props.data) : this.updateData(this.props.alternativeData);
+        this.isAlternative = !this.isAlternative;
     }
 
     render() {
+        let button;
+        if (this.props.alternativeData) {
+            button = <button onClick={this.switchData}>Switch</button>
+        }
+
         return (
             <div>
                 <canvas ref={this.chartRef}></canvas>
+                {button}
             </div>
 
         )

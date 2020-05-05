@@ -4,6 +4,8 @@ import './Dashboard.css';
 import { department_data } from '../data/department_data';
 import MapContainer from './MapContainer';
 
+import moment from 'moment/moment.js';
+
 class Dashboard extends Component {
     constructor() {
         super();
@@ -30,6 +32,15 @@ class Dashboard extends Component {
             }
         });
 
+        dataset.forEach(elem => {
+            let previousDay = moment(elem.date).subtract(1, 'day').format('YYYY-MM-DD');
+            let previousDayObj = dataset.filter(e => {
+                return (e.department === elem.department && e.date === previousDay)
+            })[0];
+            elem.newDeaths = previousDayObj ? elem.deaths - previousDayObj.deaths : elem.deaths;
+            elem.newReturnHome = previousDayObj ? elem.returnHome - previousDayObj.returnHome : elem.returnHome;
+        })
+
         return dataset;
     }
 
@@ -44,6 +55,8 @@ class Dashboard extends Component {
                 groupedDataset[date].hospitalizations = parseInt(elem.hospitalizations) + parseInt(groupedDataset[date].hospitalizations);
                 groupedDataset[date].population = parseInt(elem.population) + parseInt(groupedDataset[date].population);
                 groupedDataset[date].reanimation_capacity = parseInt(elem.reanimation_capacity) + parseInt(groupedDataset[date].reanimation_capacity);
+                groupedDataset[date].newDeaths = parseInt(elem.newDeaths) + parseInt(groupedDataset[date].newDeaths);
+                groupedDataset[date].newReturnHome = parseInt(elem.newReturnHome) + parseInt(groupedDataset[date].newReturnHome);
             } else {
                 groupedDataset[date] = {
                     date: date,
@@ -53,6 +66,8 @@ class Dashboard extends Component {
                     hospitalizations: elem.hospitalizations,
                     population: elem.population,
                     reanimation_capacity: elem.reanimation_capacity,
+                    newDeaths: elem.newDeaths,
+                    newReturnHome: elem.newReturnHome,
                 }
             }
         });
@@ -98,7 +113,7 @@ class Dashboard extends Component {
             !this.state.dataset.length ?
                 <h1>Loading</h1> :
                 <div className="dashboard">
-                    <MapContainer data={this.state.dataset} onDepartmentClick={this.departmentClicked} />
+                    <MapContainer data={this.state.dataset} onDepartmentClick={this.departmentClicked} departments={this.state.departments} />
                     <div className="chartsContainer">
                         <LineChart
                             data={this.state.datasetGroupedByDate.map(d => {
@@ -134,6 +149,12 @@ class Dashboard extends Component {
                                     value: d.returnHome
                                 }
                             })}
+                            alternativeData={this.state.datasetGroupedByDate.map(d => {
+                                return {
+                                    label: d.date,
+                                    value: d.newReturnHome
+                                }
+                            })}
                             name="Retours à domicile"
                             color="#8e5ea2" />
 
@@ -142,6 +163,12 @@ class Dashboard extends Component {
                                 return {
                                     label: d.date,
                                     value: d.deaths
+                                }
+                            })}
+                            alternativeData={this.state.datasetGroupedByDate.map(d => {
+                                return {
+                                    label: d.date,
+                                    value: d.newDeaths
                                 }
                             })}
                             name="Décès"
