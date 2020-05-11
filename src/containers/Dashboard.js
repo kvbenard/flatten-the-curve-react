@@ -215,7 +215,7 @@ class Dashboard extends Component {
                                     measure="reanimations" />
 
                                 <RangeInput onChange={this.onChangeHandler} max={this.state.datesSize} />
-
+                                <strong>Départements séléctionnés :</strong>
                                 <FilteredElements elements={this.state.departments} onElementDeleted={this.onDepartmentClicked} />
 
                                 <div className='indicatorsContainer'>
