@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Chart from 'chart.js';
 import 'chartjs-plugin-annotation';
 
+/**
+ * Uses the Chart.js library to show a line chart
+ */
 class LineChart extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +14,14 @@ class LineChart extends Component {
         this.isAlternative = false;
     }
 
-    updateData = (data) => {
+    updateData = () => {
+        let data = this.groupDatasetByDate(this.props.measure).map(d => {
+            return {
+                label: d.date,
+                value: d[this.props.measure]
+            }
+        });
+
         this.myChart.data.labels = data.map(e => e.label);
         this.myChart.data.datasets[0].data = data.map(e => e.value);
         this.myChart.data.datasets[0].fill = false;
@@ -19,15 +29,16 @@ class LineChart extends Component {
         this.myChart.data.datasets[0].borderColor = this.props.color;
 
         if (this.props.annotation) {
+            let annotation = this.groupDatasetByDate(this.props.annotation);
             if (this.myChart.data.datasets.length > 1) {
-                this.myChart.data.datasets[1].data = this.props.annotation.map(e => e.value);
+                this.myChart.data.datasets[1].data = annotation.map(e => e[this.props.annotation]);
                 this.myChart.data.datasets[1].fill = false;
                 this.myChart.data.datasets[1].label = "Capacité";
                 this.myChart.data.datasets[1].borderColor = "#aaaaaa";
             } else {
                 this.myChart.data.datasets.push({
                     fill: false,
-                    data: this.props.annotation.map(e => e.value),
+                    data: annotation.map(e => e[this.props.annotation]),
                     label: "Capacité",
                     borderColor: "#aaaaaa",
                 });
@@ -35,9 +46,28 @@ class LineChart extends Component {
 
         }
 
-        //this.myChart.options.annotation.annotations[0].value = this.props.date;
+        this.myChart.options.annotation.annotations[0].value = this.props.date;
 
         this.myChart.update();
+    }
+
+    groupDatasetByDate = (measure) => {
+        let groupedDataset = {};
+        this.props.data
+            .filter(e => this.props.departments.length > 0 ? this.props.departments.includes(e.department) : true)
+            .forEach(elem => {
+                let date = elem.date;
+                if (Object.keys(groupedDataset).includes(date)) {
+                    groupedDataset[date][measure] = parseInt(elem[measure]) + parseInt(groupedDataset[date][measure]);
+                } else {
+                    groupedDataset[date] = {
+                        date: date
+                    }
+                    groupedDataset[date][measure] = parseInt(elem[measure])
+                }
+            });
+
+        return Object.values(groupedDataset);
     }
 
     componentDidMount() {

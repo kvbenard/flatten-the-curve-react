@@ -1,11 +1,37 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import map from "@amcharts/amcharts4-geodata/franceDepartmentsLow";
 
+/**
+ * Construct a map from the AMCharts library
+ */
+class Map extends PureComponent {
 
-class Map extends Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            currentData: this.constructDataset(this.props.data, this.props.date)
+        }
+    }
+
+    /**
+     * Construct dataset specific to this component
+     */
+    constructDataset = (data, date) => {
+        return data.filter(e => ((e.department < 900 || e.department === "2A" || e.department === "2B") && e.date === date)).map(e => {
+            return {
+                id: "FR-" + e.department,
+                value: e.reanimations / e.reanimation_capacity,
+                department: e.department
+            }
+        });
+    }
+
+    /**
+     * When the component did mount, create the map object and bind the constructed dataset
+     */
     componentDidMount() {
         this.chart = am4core.create("french-map", am4maps.MapChart);
         this.chart.geodata = map;
@@ -25,23 +51,13 @@ class Map extends Component {
         let hs = polygonTemplate.states.create("hover");
         hs.properties.fill = am4core.color("#011627");
 
-        // Create hover state and set alternative fill color
-        hs = polygonTemplate.states.create("active");
-        hs.properties.fill = am4core.color("#011627");
-
-        this.chart.series.values[0].data = this.props.data.map(e => {
-            return {
-                id: "FR-" + e.department,
-                value: e.reanimations / e.reanimation_capacity,
-                department: e.department
-            }
-        });
+        this.chart.series.values[0].data = this.state.currentData;
 
         polygonSeries.heatRules.push({
             property: "fill",
             target: polygonSeries.mapPolygons.template,
             min: am4core.color("#eeeeee"),
-            max: am4core.color("#ff0000"),
+            max: am4core.color(this.props.colors[this.props.measure]),
             maxValue: 2
         });
 
@@ -53,15 +69,12 @@ class Map extends Component {
         });
     }
 
+    /**
+     * When the component did update, update the map's data
+     */
     componentDidUpdate() {
 
-        let data = this.props.data.map(e => {
-            return {
-                id: "FR-" + e.department,
-                value: e.reanimations / e.reanimation_capacity,
-                department: e.department
-            }
-        });
+        let data = this.constructDataset(this.props.data, this.props.date);
 
         if (this.chart && this.chart.series.values[0].data.length > 0) {
             this.chart.series.values[0].data.forEach((e, i) => {

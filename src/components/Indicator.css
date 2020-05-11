@@ -1,3 +1,19 @@
 .indicator {
     color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.indicatorsContent{
+    margin: 0;
+}
+
+.indicatorsContent h3{
+    margin: 0em;
+    font-size: 1.2rem;
+}
+
+.indicatorsContent .value {
+    font-size: 1.5rem;
+    margin: 5px 0px 5px 0px;
 }

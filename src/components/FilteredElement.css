@@ -1,0 +1,12 @@
+.filteredElement {
+    border: black 1px solid;
+    border-radius: 20px;
+    margin :3px;
+    padding: 3px;
+    background-color: rgba(128, 203, 196,0.5);
+}
+
+.filteredElement button{
+    background: none;
+    border: none;
+}
