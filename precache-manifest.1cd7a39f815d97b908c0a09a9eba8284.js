@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "02c15d91dd7b5c87a3526953975d1dd4",
+    "revision": "ce322f0e824cc4c548fe3417d0fc4bcf",
     "url": "/flatten-the-curve/index.html"
   },
   {
-    "revision": "6d89e7b46ff81286f50a",
-    "url": "/flatten-the-curve/static/css/main.1ec63f27.chunk.css"
+    "revision": "290a4f1f0ff188788948",
+    "url": "/flatten-the-curve/static/css/main.8b469213.chunk.css"
   },
   {
     "revision": "60250d0721c0a4f6a4f0",
@@ -36,8 +36,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/flatten-the-curve/static/js/6.b872756b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6d89e7b46ff81286f50a",
-    "url": "/flatten-the-curve/static/js/main.2dc216f6.chunk.js"
+    "revision": "290a4f1f0ff188788948",
+    "url": "/flatten-the-curve/static/js/main.55a269f9.chunk.js"
   },
   {
     "revision": "81e3fa767a3e01f9a707",
