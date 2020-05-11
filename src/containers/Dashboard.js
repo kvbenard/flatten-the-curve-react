@@ -294,7 +294,7 @@ class Dashboard extends Component {
 
                     <footer>
                         <ul>
-                            <li className="credit">© Kévin Bénard</li>
+                            <li className="credit">Kévin Bénard</li>
                             <li><a href="mailto:kv.benard@gmail.com"><FontAwesomeIcon icon={faEnvelope} /></a></li>
                             <li><a href="https://www.linkedin.com/in/k%C3%A9vin-b%C3%A9nard-b760ba66/"><FontAwesomeIcon icon={faLinkedin} /> </a></li>
                             <li><a href="https://github.com/kvbenard"><FontAwesomeIcon icon={faGithub} /> </a></li>
