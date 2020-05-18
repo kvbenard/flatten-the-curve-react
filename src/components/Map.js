@@ -11,9 +11,8 @@ class Map extends PureComponent {
     constructor(props) {
         super(props);
 
-        this.state = {
-            currentData: this.constructDataset(this.props.data, this.props.date)
-        }
+        this.data = this.constructDataset(this.props.data, this.props.maxDate)
+
     }
 
     /**
@@ -51,15 +50,10 @@ class Map extends PureComponent {
         let hs = polygonTemplate.states.create("hover");
         hs.properties.fill = am4core.color("#011627");
 
-        this.chart.series.values[0].data = this.state.currentData;
+        hs = polygonTemplate.states.create("active");
+        hs.properties.fill = am4core.color("#011627");
 
-        polygonSeries.heatRules.push({
-            property: "fill",
-            target: polygonSeries.mapPolygons.template,
-            min: am4core.color("#eeeeee"),
-            max: am4core.color(this.props.colors[this.props.measure]),
-            maxValue: 2
-        });
+        this.chart.series.values[0].data = this.data;
 
         polygonTemplate.events.on("hit", (ev) => {
             ev.target.isActive = !ev.target.isActive;
@@ -67,23 +61,6 @@ class Map extends PureComponent {
 
             this.props.onDepartmentClick(department);
         });
-    }
-
-    /**
-     * When the component did update, update the map's data
-     */
-    componentDidUpdate() {
-
-        let data = this.constructDataset(this.props.data, this.props.date);
-
-        if (this.chart && this.chart.series.values[0].data.length > 0) {
-            this.chart.series.values[0].data.forEach((e, i) => {
-                let newObj = data.filter(d => (d.id === e.id))[0];
-                this.chart.series.values[0].data[i].value = newObj ? newObj.value : 0;
-            });
-        }
-
-        this.chart.invalidateRawData();
     }
 
     render() {

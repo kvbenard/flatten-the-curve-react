@@ -206,17 +206,11 @@ class Dashboard extends Component {
 
                     <section>
                         <div className="dashboard">
-                            <div className="mapConatainer">
+                            <div className="mapContainer">
                                 <Map
                                     data={this.state.dataset}
-                                    date={this.state.currentDate.format('YYYY-MM-DD')}
-                                    onDepartmentClick={this.onDepartmentClicked}
-                                    colors={this.colors}
-                                    measure="reanimations" />
-
-                                <RangeInput onChange={this.onChangeHandler} max={this.state.datesSize} />
-                                <strong>Départements séléctionnés :</strong>
-                                <FilteredElements elements={this.state.departments} onElementDeleted={this.onDepartmentClicked} />
+                                    maxDate={this.state.maxDate}
+                                    onDepartmentClick={this.onDepartmentClicked} />
 
                                 <div className='indicatorsContainer'>
                                     <Indicator
@@ -254,39 +248,44 @@ class Dashboard extends Component {
                                 </div>
                             </div>
 
-                            <div className="chartsContainer">
-                                <LineChart
-                                    data={this.state.dataset}
-                                    name="Hospitalisations"
-                                    measure="hospitalizations"
-                                    date={this.state.currentDate.format('YYYY-MM-DD')}
-                                    departments={this.state.departments}
-                                    color={this.colors["hospitalizations"]} />
+                            <div className="rightContainer">
+                                <div className="chartsContainer">
+                                    <LineChart
+                                        data={this.state.dataset}
+                                        name="Hospitalisations"
+                                        measure="hospitalizations"
+                                        date={this.state.currentDate.format('YYYY-MM-DD')}
+                                        departments={this.state.departments}
+                                        color={this.colors["hospitalizations"]} />
 
-                                <LineChart
-                                    data={this.state.dataset}
-                                    name="Reanimations"
-                                    measure="reanimations"
-                                    annotation="reanimation_capacity"
-                                    date={this.state.currentDate.format('YYYY-MM-DD')}
-                                    departments={this.state.departments}
-                                    color={this.colors["reanimations"]} />
+                                    <LineChart
+                                        data={this.state.dataset}
+                                        name="Reanimations"
+                                        measure="reanimations"
+                                        annotation="reanimation_capacity"
+                                        date={this.state.currentDate.format('YYYY-MM-DD')}
+                                        departments={this.state.departments}
+                                        color={this.colors["reanimations"]} />
 
-                                <LineChart
-                                    data={this.state.dataset}
-                                    measure="returnHome"
-                                    name="Retours à domicile"
-                                    date={this.state.currentDate.format('YYYY-MM-DD')}
-                                    departments={this.state.departments}
-                                    color={this.colors["returnHome"]} />
+                                    <LineChart
+                                        data={this.state.dataset}
+                                        measure="returnHome"
+                                        name="Retours à domicile"
+                                        date={this.state.currentDate.format('YYYY-MM-DD')}
+                                        departments={this.state.departments}
+                                        color={this.colors["returnHome"]} />
 
-                                <LineChart
-                                    data={this.state.dataset}
-                                    measure="deaths"
-                                    name="Décès"
-                                    date={this.state.currentDate.format('YYYY-MM-DD')}
-                                    departments={this.state.departments}
-                                    color={this.colors["deaths"]} />
+                                    <LineChart
+                                        data={this.state.dataset}
+                                        measure="deaths"
+                                        name="Décès"
+                                        date={this.state.currentDate.format('YYYY-MM-DD')}
+                                        departments={this.state.departments}
+                                        color={this.colors["deaths"]} />
+                                </div>
+
+                                <h2 id="currentDate">{this.state.currentDate.format('DD/MM/YYYY')}</h2>
+                                <RangeInput onChange={this.onChangeHandler} max={this.state.datesSize} />
                             </div>
                         </div >
                     </section>
